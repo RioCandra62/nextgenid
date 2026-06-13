@@ -1,137 +1,84 @@
 "use client";
 
 import React from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
-interface BranchDashboardSideBarProps {
-  activeTab:
-    | "dashboard"
-    | "leads"
-    | "opportunities"
-    | "accounts"
-    | "reports"
-    | "team";
-  setActiveTab: (
-    tab:
-      | "dashboard"
-      | "leads"
-      | "opportunities"
-      | "accounts"
-      | "reports"
-      | "team",
-  ) => void;
-}
 
-export default function BranchDashboardSideBar({
-  activeTab,
-  setActiveTab,
-}: BranchDashboardSideBarProps) {
+export default function BranchDashboardSideBar() {
+
+  const path = usePathname();
+
   const router = useRouter();
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
     router.push("/auth/login");
   };
-
+  
   return (
-    <aside className="fixed left-0 top-16 h-[calc(100vh-64px)] flex flex-col py-6 w-64 z-30 bg-[#f0f4fa] border-r border-[#e2e8f0] hidden md:flex transition-colors duration-300">
+    <aside className="fixed left-0 top-16 h-[calc(100vh-64px)] flex flex-col py-6 w-64 z-30 bg-[#f7f7fc] border-r border-[#e2e8f0] hidden md:flex transition-colors duration-300">
       <nav className="flex-1 space-y-1 px-3">
         <div
-          onClick={() => setActiveTab("dashboard")}
-          className={`flex items-center gap-3 rounded-lg px-4 py-3 cursor-pointer transition-all duration-200 ${
-            activeTab === "dashboard"
-              ? "bg-[#15157d] text-white shadow-md font-semibold"
-              : "text-[#464652] hover:text-[#15157d] hover:bg-slate-200/60"
-          }`}
+          onClick={() => router.push("/dashboard/branch")}
+          className={`flex items-center gap-3 rounded-lg px-4 py-3 cursor-pointer transition-all duration-200 ${path === "/dashboard/branch" ? "bg-[#312e81] text-white shadow-md font-semibold" : "text-[#464652] hover:text-[#312e81] hover:bg-slate-200/60"} `}
         >
-          <span className="material-symbols-outlined">dashboard</span>
-          <span className="text-[13px] font-semibold">Dashboard</span>
+          <span className="material-symbols-outlined">insights</span>
+          <span className="text-[13px] font-semibold">Overview</span>
         </div>
 
         <div
-          onClick={() => {
-            setActiveTab("leads");
-          }}
-          className={`flex items-center gap-3 rounded-lg px-4 py-3 cursor-pointer transition-all duration-200 ${
-            activeTab === "leads"
-              ? "bg-[#15157d] text-white shadow-md font-semibold"
-              : "text-[#464652] hover:text-[#15157d] hover:bg-slate-200/60"
-          }`}
+          onClick={() => router.push("/dashboard/branch/data_penjualan")}
+          className={`flex items-center gap-3 rounded-lg px-4 py-3 cursor-pointer transition-all duration-200 ${path === "/dashboard/branch/data_penjualan" ? "bg-[#312e81] text-white shadow-md font-semibold" : "text-[#464652] hover:text-[#312e81] hover:bg-slate-200/60"} `}
         >
-          <span className="material-symbols-outlined">person_search</span>
-          <span className="text-[13px] font-semibold">Leads</span>
+          <span className="material-symbols-outlined">storefront</span>
+          <span className="text-[13px] font-semibold">Data Penjualan</span>
         </div>
 
         <div
-          onClick={() => {
-            setActiveTab("opportunities");
-          }}
-          className={`flex items-center gap-3 rounded-lg px-4 py-3 cursor-pointer transition-all duration-200 ${
-            activeTab === "opportunities"
-              ? "bg-[#15157d] text-white shadow-md font-semibold"
-              : "text-[#464652] hover:text-[#15157d] hover:bg-slate-200/60"
-          }`}
+          onClick={() => router.push("/dashboard/branch/account_page")}
+          className={`flex items-center gap-3 rounded-lg px-4 py-3 cursor-pointer transition-all duration-200 ${path === "/dashboard/branch/account_page" ? "bg-[#312e81] text-white shadow-md font-semibold" : "text-[#464652] hover:text-[#312e81] hover:bg-slate-200/60"} `}
         >
-          <span className="material-symbols-outlined">monetization_on</span>
-          <span className="text-[13px] font-semibold">Opportunities</span>
+          <span className="material-symbols-outlined">manage_accounts</span>
+          <span className="text-[13px] font-semibold">Daftar Akun</span>
+        </div>
+        <div
+          onClick={() => router.push("/dashboard/branch/products")}
+          className={`flex items-center gap-3 rounded-lg px-4 py-3 cursor-pointer transition-all duration-200 ${path === "/dashboard/branch/products" ? "bg-[#312e81] text-white shadow-md font-semibold" : "text-[#464652] hover:text-[#312e81] hover:bg-slate-200/60"} `}
+        >
+          <span className="material-symbols-outlined">inventory</span>
+          <span className="text-[13px] font-semibold">Daftar Produk</span>
+        </div>
+        {/* <div
+          
+          className={`flex items-center gap-3 rounded-lg px-4 py-3 cursor-pointer transition-all duration-200`}
+        >
+          <span className="material-symbols-outlined">account_balance_wallet</span>
+          <span className="text-[13px] font-semibold">Financial Ledger</span>
         </div>
 
         <div
-          onClick={() => {
-            setActiveTab("accounts");
-          }}
-          className={`flex items-center gap-3 rounded-lg px-4 py-3 cursor-pointer transition-all duration-200 ${
-            activeTab === "accounts"
-              ? "bg-[#15157d] text-white shadow-md font-semibold"
-              : "text-[#464652] hover:text-[#15157d] hover:bg-slate-200/60"
-          }`}
+          
+          className={`flex items-center gap-3 rounded-lg px-4 py-3 cursor-pointer transition-all duration-200 `}
         >
-          <span className="material-symbols-outlined">business</span>
-          <span className="text-[13px] font-semibold">Accounts</span>
-        </div>
-
-        <div
-          onClick={() => {
-            setActiveTab("reports");
-          }}
-          className={`flex items-center gap-3 rounded-lg px-4 py-3 cursor-pointer transition-all duration-200 ${
-            activeTab === "reports"
-              ? "bg-[#15157d] text-white shadow-md font-semibold"
-              : "text-[#464652] hover:text-[#15157d] hover:bg-slate-200/60"
-          }`}
-        >
-          <span className="material-symbols-outlined">assessment</span>
-          <span className="text-[13px] font-semibold">Reports</span>
-        </div>
-
-        <div
-          onClick={() => {
-            setActiveTab("team");
-          }}
-          className={`flex items-center gap-3 rounded-lg px-4 py-3 cursor-pointer transition-all duration-200 ${
-            activeTab === "team"
-              ? "bg-[#15157d] text-white shadow-md font-semibold"
-              : "text-[#464652] hover:text-[#15157d] hover:bg-slate-200/60"
-          }`}
-        >
-          <span className="material-symbols-outlined">group</span>
-          <span className="text-[13px] font-semibold">Team</span>
-        </div>
+          <span className="material-symbols-outlined">supervisor_account</span>
+          <span className="text-[13px] font-semibold">Regional Leaders</span>
+        </div> */}
       </nav>
 
       <div className="mt-auto border-t border-[#e2e8f0] pt-4 px-3">
-        <div className="flex items-center gap-3 text-[#464652] px-4 py-3 rounded-lg hover:bg-slate-200/60 cursor-pointer transition-all active:scale-95">
-          <span className="material-symbols-outlined">help</span>
-          <span className="text-[13px] font-semibold">Support</span>
+        <div
+          
+          className="flex items-center gap-3 text-[#464652] px-4 py-3 rounded-lg hover:bg-slate-200/60 cursor-pointer transition-all active:scale-95"
+        >
+          <span className="material-symbols-outlined">contact_support</span>
+          <span className="text-[13px] font-semibold">Executive Help</span>
         </div>
-    <button
-      onClick={handleLogout}
-      className="flex w-full items-center gap-3 text-[#ba1a1a] px-4 py-3 rounded-lg hover:bg-red-50 hover:text-[#93000a] cursor-pointer transition-all active:scale-95"
-    >
-      <span className="material-symbols-outlined">logout</span>
-      <span className="text-[13px] font-bold">Logout</span>
-    </button>
+        <button
+          onClick={handleLogout}
+          className="flex w-full items-center gap-3 text-[#ba1a1a] px-4 py-3 rounded-lg hover:bg-red-50 hover:text-[#93000a] cursor-pointer transition-all active:scale-95 border-0"
+        >
+          <span className="material-symbols-outlined">logout</span>
+          <span className="text-[13px] font-bold">Logout</span>
+        </button>
       </div>
     </aside>
   );

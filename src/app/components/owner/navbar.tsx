@@ -7,41 +7,29 @@ interface OwnerDashboardNavBarProps {
   setActiveTab: (tab: "overview" | "branches" | "corporate" | "financials" | "team") => void;
 }
 
-export default function OwnerDashboardNavBar({
-  activeTab,
-  setActiveTab,
-}: OwnerDashboardNavBarProps) {
+export default function OwnerDashboardNavBar() {
   return (
     <header className="flex justify-between items-center h-16 px-8 w-full sticky top-0 z-40 bg-white border-b border-[#e2e8f0] shadow-sm">
       <div className="flex items-center gap-8">
         <span className="text-[24px] font-bold text-[#1e1b4b] tracking-tight flex items-center gap-2">
           <span className="material-symbols-outlined text-[#312e81] font-bold">corporate_fare</span>
-          SalesStream <span className="text-xs uppercase font-extrabold px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 tracking-wider">Owner</span>
+          NextGenID <span className="text-xs uppercase font-extrabold px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 tracking-wider">Owner</span>
         </span>
         <div className="hidden md:flex items-center gap-6">
           <span
-            onClick={() => setActiveTab("overview")}
-            className={`font-semibold text-[14px] cursor-pointer h-16 flex items-center border-b-2 transition-all duration-200 ${
-              activeTab === "overview"
-                ? "text-[#312e81] border-[#312e81]"
-                : "text-[#464652] border-transparent hover:text-[#312e81]"
-            }`}
+            className={`font-semibold text-[14px] cursor-pointer h-16 flex items-center border-b-2 transition-all duration-200`}
           >
             Executive Summary
           </span>
           <span
-            onClick={() => setActiveTab("branches")}
-            className={`text-[#464652] text-[14px] font-medium hover:text-[#312e81] transition-colors duration-200 cursor-pointer h-16 flex items-center px-1 ${
-              activeTab === "branches" ? "text-[#312e81] font-bold" : ""
-            }`}
+            
+            className={`text-[#464652] text-[14px] font-medium hover:text-[#312e81] transition-colors duration-200 cursor-pointer h-16 flex items-center px-1`}
           >
             Branches
           </span>
           <span
-            onClick={() => setActiveTab("financials")}
-            className={`text-[#464652] text-[14px] font-medium hover:text-[#312e81] transition-colors duration-200 cursor-pointer h-16 flex items-center px-1 ${
-              activeTab === "financials" ? "text-[#312e81] font-bold" : ""
-            }`}
+           
+            className={`text-[#464652] text-[14px] font-medium hover:text-[#312e81] transition-colors duration-200 cursor-pointer h-16 flex items-center px-1`}
           >
             Financials
           </span>

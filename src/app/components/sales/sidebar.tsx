@@ -18,6 +18,7 @@ export default function SalesDashboardSideBar({
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     localStorage.removeItem("userSession");
+    document.cookie = "better-auth.session-token=; path=/; max-age=0; SameSite=Lax";
     router.push("/auth/login");
   };
 
