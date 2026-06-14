@@ -7,7 +7,9 @@ interface BranchDashboardSideBarProps {
   isCollapsed?: boolean;
 }
 
-export default function BranchDashboardSideBar({ isCollapsed = false }: BranchDashboardSideBarProps) {
+export default function BranchDashboardSideBar({
+  isCollapsed = false,
+}: BranchDashboardSideBarProps) {
   const path = usePathname();
   const router = useRouter();
 
@@ -25,18 +27,20 @@ export default function BranchDashboardSideBar({ isCollapsed = false }: BranchDa
       }`}
     >
       <nav className="flex-1 space-y-1 px-3">
-        {/* Overview Link */}
+        {/* Data Penjualan Link */}
         <div
-          onClick={() => router.push("/dashboard/branch")}
+          onClick={() => router.push("/dashboard/branch/data_penjualan")}
           className={`flex items-center gap-3 rounded-lg px-4 py-3 cursor-pointer transition-all duration-200 ${
-            path === "/dashboard/branch"
+            path === "/dashboard/branch/data_penjualan" || path === "/dashboard/branch"
               ? "bg-[#312e81] text-white shadow-md font-semibold"
               : "text-[#464652] hover:text-[#312e81] hover:bg-slate-200/60"
           } ${isCollapsed ? "justify-center px-2" : ""}`}
-          title={isCollapsed ? "Overview" : undefined}
+          title={isCollapsed ? "Data Penjualan" : undefined}
         >
-          <span className="material-symbols-outlined">insights</span>
-          {!isCollapsed && <span className="text-[13px] font-semibold">Overview</span>}
+          <span className="material-symbols-outlined">storefront</span>
+          {!isCollapsed && (
+            <span className="text-[13px] font-semibold">Data Penjualan</span>
+          )}
         </div>
 
         {/* Payout Report Link */}
@@ -50,21 +54,9 @@ export default function BranchDashboardSideBar({ isCollapsed = false }: BranchDa
           title={isCollapsed ? "Payout Report" : undefined}
         >
           <span className="material-symbols-outlined">receipt_long</span>
-          {!isCollapsed && <span className="text-[13px] font-semibold">Payout Report</span>}
-        </div>
-
-        {/* Data Penjualan Link */}
-        <div
-          onClick={() => router.push("/dashboard/branch/data_penjualan")}
-          className={`flex items-center gap-3 rounded-lg px-4 py-3 cursor-pointer transition-all duration-200 ${
-            path === "/dashboard/branch/data_penjualan"
-              ? "bg-[#312e81] text-white shadow-md font-semibold"
-              : "text-[#464652] hover:text-[#312e81] hover:bg-slate-200/60"
-          } ${isCollapsed ? "justify-center px-2" : ""}`}
-          title={isCollapsed ? "Data Penjualan" : undefined}
-        >
-          <span className="material-symbols-outlined">storefront</span>
-          {!isCollapsed && <span className="text-[13px] font-semibold">Data Penjualan</span>}
+          {!isCollapsed && (
+            <span className="text-[13px] font-semibold">Payout Report</span>
+          )}
         </div>
 
         {/* Daftar Produk Link */}
@@ -78,7 +70,9 @@ export default function BranchDashboardSideBar({ isCollapsed = false }: BranchDa
           title={isCollapsed ? "Daftar Produk" : undefined}
         >
           <span className="material-symbols-outlined">inventory</span>
-          {!isCollapsed && <span className="text-[13px] font-semibold">Daftar Produk</span>}
+          {!isCollapsed && (
+            <span className="text-[13px] font-semibold">Daftar Produk</span>
+          )}
         </div>
 
         {/* Daftar Akun Link */}
@@ -92,7 +86,9 @@ export default function BranchDashboardSideBar({ isCollapsed = false }: BranchDa
           title={isCollapsed ? "Daftar Akun" : undefined}
         >
           <span className="material-symbols-outlined">manage_accounts</span>
-          {!isCollapsed && <span className="text-[13px] font-semibold">Daftar Akun</span>}
+          {!isCollapsed && (
+            <span className="text-[13px] font-semibold">Daftar Akun</span>
+          )}
         </div>
       </nav>
 
@@ -105,7 +101,9 @@ export default function BranchDashboardSideBar({ isCollapsed = false }: BranchDa
           title={isCollapsed ? "Executive Help" : undefined}
         >
           <span className="material-symbols-outlined">contact_support</span>
-          {!isCollapsed && <span className="text-[13px] font-semibold">Executive Help</span>}
+          {!isCollapsed && (
+            <span className="text-[13px] font-semibold">Executive Help</span>
+          )}
         </div>
 
         {/* Logout Button */}
@@ -117,7 +115,9 @@ export default function BranchDashboardSideBar({ isCollapsed = false }: BranchDa
           title={isCollapsed ? "Logout" : undefined}
         >
           <span className="material-symbols-outlined">logout</span>
-          {!isCollapsed && <span className="text-[13px] font-bold">Logout</span>}
+          {!isCollapsed && (
+            <span className="text-[13px] font-bold">Logout</span>
+          )}
         </button>
       </div>
     </aside>
