@@ -20,7 +20,9 @@ export default function BranchDashboardLayout({children}: {children: React.React
       if (sessionStr) {
         try {
           const session = JSON.parse(sessionStr);
-          if (session && session.isLoggedIn && session.email === "nextgendepok@179") {
+          const isUserValid = session && session.isLoggedIn && 
+            (session.email === "nextgendepok@179" || session.email === "nexgendepok@179");
+          if (isUserValid) {
             setIsAuthenticated(true);
             return;
           }
