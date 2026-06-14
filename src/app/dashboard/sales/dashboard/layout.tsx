@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SalesDashboardNavBar from "@/app/components/sales/navbar";
 import SalesDashboardSideBar from "@/app/components/sales/sidebar";
 import SalesDashboardContent from "./page";
+import { useRouter } from "next/navigation";
 
 export interface PersonalLead {
   id: string;
@@ -21,7 +22,28 @@ export interface PersonalTransaction {
 }
 
 export default function SalesDashboardLayout() {
+  const router = useRouter();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [activeTab, setActiveTab] = useState<"performance" | "leads" | "deals" | "commission">("performance");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const sessionStr = localStorage.getItem("userSession");
+      if (sessionStr) {
+        try {
+          const session = JSON.parse(sessionStr);
+          if (session && session.isLoggedIn && session.email === "nextgendepok@179") {
+            setIsAuthenticated(true);
+            return;
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      }
+      localStorage.removeItem("userSession");
+      router.push("/dashboard/auth/login");
+    }
+  }, [router]);
 
   // Agent Performance states
   const [leads] = useState<PersonalLead[]>([
@@ -42,6 +64,17 @@ export default function SalesDashboardLayout() {
   const personalDealsCount = 24;
   const commissionRate = 0.05; // 5% commission
   const commissionEarned = totalClosedValue * commissionRate;
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-[#f8f9ff] flex items-center justify-center">
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-8 h-8 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin"></div>
+          <span className="text-sm font-semibold text-slate-500">Checking authentication...</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-[#fcfcff] text-[#0b1c30] min-h-screen flex flex-col font-sans transition-all duration-300">

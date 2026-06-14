@@ -24,49 +24,41 @@ export default function LoginPage() {
       return;
     }
 
-    const emailLower = email.toLowerCase();
-    // Enforce @nextgen.id domain (or allow admin override for convenience)
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@nextgen\.id$/;
-    if (!emailRegex.test(emailLower) && emailLower !== "admin") {
-      alert("Format email tidak valid. Gunakan email formal @nextgen.id (contoh: owner@nextgen.id)");
-      return;
-    }
+    const usernameInput = email.trim();
+    const passwordInput = password.trim();
 
-    setIsLoading(true);
+    if (usernameInput === "nextgendepok@179" && passwordInput === "depok179") {
+      setIsLoading(true);
 
-    // Determine dashboard path based on role in email
-    let targetPath = "/dashboard/branch";
-    if (emailLower.includes("owner")) {
-      targetPath = "/owner/dashboard";
-    } else if (emailLower.includes("sales") || emailLower.includes("agent")) {
-      targetPath = "/sales/dashboard";
-    } else {
-      targetPath = "/dashboard/branch";
-    }
+      // Determine dashboard path
+      let targetPath = "/dashboard/branch";
 
-    // Simulate login delay
-    setTimeout(() => {
-      setIsLoading(false);
-      
-      // Simulate saving a session
-      if (typeof window !== "undefined") {
-        localStorage.setItem("userSession", JSON.stringify({ email, isLoggedIn: true }));
-      }
-
-      // Redirect to home/branch route
+      // Simulate login delay
       setTimeout(() => {
-        router.push(targetPath);
-      }, 800);
-    }, 1500);
+        setIsLoading(false);
+        
+        // Save simple session
+        if (typeof window !== "undefined") {
+          localStorage.setItem("userSession", JSON.stringify({ email: usernameInput, isLoggedIn: true }));
+        }
+
+        // Redirect to branch route
+        setTimeout(() => {
+          router.push(targetPath);
+        }, 800);
+      }, 1500);
+    } else {
+      alert("Username atau Password salah!");
+    }
   };
 
   const handleGoogleSignIn = () => {
     setTimeout(() => {
       if (typeof window !== "undefined") {
-        localStorage.setItem("userSession", JSON.stringify({ email: "google.user@nextgen.id", isLoggedIn: true }));
+        localStorage.setItem("userSession", JSON.stringify({ email: "nextgendepok@179", isLoggedIn: true }));
       }
       setTimeout(() => {
-        router.push("/branch/dashboard");
+        router.push("/dashboard/branch");
       }, 800);
     }, 1200);
   };
@@ -159,16 +151,16 @@ export default function LoginPage() {
             {/* Email field */}
             <div className="space-y-1.5">
               <label className="block text-[13px] font-semibold text-[#0b1c30] tracking-wide">
-                Email Address / Username
+                Username
               </label>
               <div className="relative">
                 <span className="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-[#464652] text-[20px]">
-                  alternate_email
+                  person
                 </span>
                 <input
                   type="text"
                   required
-                  placeholder="name@nextgen.id"
+                  placeholder="username"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full bg-[#f8f9ff] hover:bg-slate-50 border border-[#e2e8f0] focus:border-[#15157d] rounded-xl pl-11 pr-4 py-3 text-[14px] text-[#0b1c30] placeholder-[#777683] transition-all outline-none"

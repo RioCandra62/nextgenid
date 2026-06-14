@@ -12,6 +12,9 @@ export default function BranchDashboardSideBar({ isCollapsed = false }: BranchDa
   const router = useRouter();
 
   const handleLogout = () => {
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("userSession");
+    }
     router.push("/dashboard");
   };
 

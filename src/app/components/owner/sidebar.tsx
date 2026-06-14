@@ -11,7 +11,10 @@ export default function OwnerDashboardSideBar() {
   const router = useRouter();
 
   const handleLogout = () => {
-    router.push("/auth/login");
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("userSession");
+    }
+    router.push("/dashboard");
   };
   
   return (

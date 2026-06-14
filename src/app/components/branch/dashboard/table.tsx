@@ -104,7 +104,7 @@ export default function PayoutTable() {
               </th>
 
               <th rowSpan={2} className="border p-2">
-                Busdel 2%
+                Busdev 2%
               </th>
 
               <th rowSpan={2} className="border p-2">
