@@ -34,6 +34,7 @@ export default function AccountPage() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [recapModal, setRecapModal] = useState<"all" | "active" | "inactive" | "ratio" | null>(null);
 
   // Selected member state for edit/delete operations
   const [selectedMember, setSelectedMember] = useState<any>(null);
@@ -211,6 +212,12 @@ export default function AccountPage() {
     return matchesSearch && matchesStatus;
   });
 
+  // Calculate stats from total member list
+  const totalAccounts = member.length;
+  const activeAccounts = member.filter((m) => m.status === "active").length;
+  const inactiveAccounts = member.filter((m) => m.status === "inactive").length;
+  const activeRatio = totalAccounts > 0 ? Math.round((activeAccounts / totalAccounts) * 100) : 0;
+
   return (
     <section className="relative min-h-screen pb-16">
       {/* Toast Notification */}
@@ -272,6 +279,93 @@ export default function AccountPage() {
           <Plus size={18} />
           Tambah Akun User
         </button>
+      </div>
+
+      {/* Recap Stats Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        {/* Card 1: Total Accounts */}
+        <div 
+          onClick={() => setRecapModal("all")}
+          className="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm flex items-center justify-between group hover:shadow-md hover:border-[#312e81]/30 transition-all cursor-pointer active:scale-98"
+        >
+          <div>
+            <span className="text-xs uppercase font-extrabold text-[#464652] tracking-wider block mb-1">
+              Total Akun Sales
+            </span>
+            <span className="text-[28px] font-bold text-[#0b1c30]">
+              {totalAccounts}
+            </span>
+            <span className="text-xs text-slate-500 font-semibold block mt-1">
+              Klik untuk rincian
+            </span>
+          </div>
+          <div className="w-12 h-12 bg-indigo-50 text-[#312e81] rounded-full flex items-center justify-center group-hover:bg-[#312e81] group-hover:text-white transition-all">
+            <User size={22} />
+          </div>
+        </div>
+
+        {/* Card 2: Active Accounts */}
+        <div 
+          onClick={() => setRecapModal("active")}
+          className="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm flex items-center justify-between group hover:shadow-md hover:border-emerald-600/30 transition-all cursor-pointer active:scale-98"
+        >
+          <div>
+            <span className="text-xs uppercase font-extrabold text-[#464652] tracking-wider block mb-1">
+              Akun Aktif
+            </span>
+            <span className="text-[28px] font-bold text-emerald-600">
+              {activeAccounts}
+            </span>
+            <span className="text-xs text-emerald-600 font-semibold block mt-1">
+              Klik untuk rincian
+            </span>
+          </div>
+          <div className="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center group-hover:bg-emerald-600 group-hover:text-white transition-all">
+            <UserCheck size={22} />
+          </div>
+        </div>
+
+        {/* Card 3: Inactive Accounts */}
+        <div 
+          onClick={() => setRecapModal("inactive")}
+          className="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm flex items-center justify-between group hover:shadow-md hover:border-slate-400/30 transition-all cursor-pointer active:scale-98"
+        >
+          <div>
+            <span className="text-xs uppercase font-extrabold text-[#464652] tracking-wider block mb-1">
+              Akun Nonaktif
+            </span>
+            <span className="text-[28px] font-bold text-slate-500">
+              {inactiveAccounts}
+            </span>
+            <span className="text-xs text-slate-400 font-semibold block mt-1">
+              Klik untuk rincian
+            </span>
+          </div>
+          <div className="w-12 h-12 bg-slate-100 text-slate-500 rounded-full flex items-center justify-center group-hover:bg-slate-500 group-hover:text-white transition-all">
+            <UserX size={22} />
+          </div>
+        </div>
+
+        {/* Card 4: Active Ratio */}
+        <div 
+          onClick={() => setRecapModal("ratio")}
+          className="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm flex items-center justify-between group hover:shadow-md hover:border-indigo-600/30 transition-all cursor-pointer active:scale-98"
+        >
+          <div>
+            <span className="text-xs uppercase font-extrabold text-[#464652] tracking-wider block mb-1">
+              Rasio Keaktifan
+            </span>
+            <span className="text-[28px] font-bold text-indigo-600">
+              {activeRatio}%
+            </span>
+            <span className="text-xs text-indigo-500 font-semibold block mt-1">
+              Klik untuk analisis
+            </span>
+          </div>
+          <div className="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition-all">
+            <CheckCircle2 size={22} />
+          </div>
+        </div>
       </div>
 
       {/* Main Table Card */}
@@ -354,7 +448,7 @@ export default function AccountPage() {
                     key={t.member_id || idx}
                     className="hover:bg-slate-50/50 transition-colors"
                   >
-                    <td className="px-6 py-4 text-center text-xs font-semibold text-[#464652]">
+                    <td className="px-6 py-4 text-center text-sm font-semibold text-slate-600">
                       {idx + 1}
                     </td>
                     <td className="px-6 py-4 font-semibold text-sm text-[#0b1c30]">
@@ -364,15 +458,13 @@ export default function AccountPage() {
                             ? t.member_name.charAt(0).toUpperCase()
                             : "?"}
                         </div>
-                        <div>
-                          <p>{t.member_name || "Unknown Member"}</p>
-                        </div>
+                        {t.member_name || "Unknown Member"}
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-xs font-semibold text-[#0b1c30] text-center">
+                    <td className="px-6 py-4 text-sm font-semibold text-[#0b1c30] text-center">
                       {t.username}
                     </td>
-                    <td className="px-6 py-4 text-xs text-center font-bold text-slate-500 uppercase tracking-wider">
+                    <td className="px-6 py-4 text-sm text-center font-semibold text-slate-600">
                       Sales Agent
                     </td>
                     <td className="px-6 py-4 text-center">
@@ -726,6 +818,214 @@ export default function AccountPage() {
                   )}
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* RECAP DETAILED MODALS */}
+      {recapModal === "all" && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
+          <div className="bg-white max-w-md w-full rounded-2xl shadow-2xl border border-slate-100 overflow-hidden transform transition-all animate-in fade-in zoom-in-95 duration-200">
+            <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+              <h3 className="text-lg font-bold text-[#0b1c30] flex items-center gap-2">
+                <User className="text-[#312e81]" size={20} />
+                Rincian Semua Akun Sales Agent ({totalAccounts})
+              </h3>
+              <button
+                onClick={() => setRecapModal(null)}
+                className="text-slate-400 hover:text-slate-600 transition-colors p-1 rounded-lg hover:bg-slate-100"
+              >
+                <X size={18} />
+              </button>
+            </div>
+            <div className="p-6 max-h-[350px] overflow-y-auto space-y-3">
+              {member.map((m, idx) => (
+                <div key={m.member_id || idx} className="flex items-center justify-between p-3 border border-slate-100 rounded-xl bg-slate-50/50 hover:bg-slate-50 transition-colors">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 bg-indigo-100 text-[#312e81] rounded-full flex items-center justify-center font-bold text-xs">
+                      {m.member_name ? m.member_name.charAt(0).toUpperCase() : "?"}
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-[#0b1c30]">{m.member_name}</p>
+                      <p className="text-xs text-slate-400">@{m.username}</p>
+                    </div>
+                  </div>
+                  <span className={`px-2 py-0.5 rounded-full text-[9px] font-extrabold uppercase tracking-wide border ${
+                    m.status === "active" 
+                      ? "bg-emerald-50 text-emerald-700 border-emerald-100" 
+                      : "bg-slate-100 text-slate-600 border-slate-200"
+                  }`}>
+                    {m.status === "active" ? "Aktif" : "Nonaktif"}
+                  </span>
+                </div>
+              ))}
+            </div>
+            <div className="p-4 bg-slate-50 border-t border-slate-100 flex justify-end">
+              <button
+                onClick={() => setRecapModal(null)}
+                className="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold rounded-xl cursor-pointer transition-colors"
+              >
+                Tutup
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {recapModal === "active" && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
+          <div className="bg-white max-w-md w-full rounded-2xl shadow-2xl border border-slate-100 overflow-hidden transform transition-all animate-in fade-in zoom-in-95 duration-200">
+            <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-emerald-50">
+              <h3 className="text-lg font-bold text-emerald-950 flex items-center gap-2">
+                <UserCheck className="text-emerald-600" size={20} />
+                Rincian Akun Sales Aktif ({activeAccounts})
+              </h3>
+              <button
+                onClick={() => setRecapModal(null)}
+                className="text-emerald-700 hover:bg-emerald-100 transition-colors p-1 rounded-lg"
+              >
+                <X size={18} />
+              </button>
+            </div>
+            <div className="p-6 max-h-[350px] overflow-y-auto space-y-3">
+              {member.filter(m => m.status === "active").map((m, idx) => (
+                <div key={m.member_id || idx} className="flex items-center justify-between p-3 border border-emerald-100/50 rounded-xl bg-emerald-50/20 hover:bg-emerald-50/50 transition-colors">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 bg-emerald-100 text-emerald-800 rounded-full flex items-center justify-center font-bold text-xs">
+                      {m.member_name ? m.member_name.charAt(0).toUpperCase() : "?"}
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-[#0b1c30]">{m.member_name}</p>
+                      <p className="text-xs text-slate-400">@{m.username}</p>
+                    </div>
+                  </div>
+                  <span className="px-2 py-0.5 rounded-full text-[9px] font-extrabold uppercase tracking-wide border bg-emerald-50 text-emerald-700 border-emerald-200">
+                    Aktif
+                  </span>
+                </div>
+              ))}
+              {activeAccounts === 0 && (
+                <p className="text-center py-6 text-slate-400 text-sm font-semibold">Tidak ada akun aktif ditemukan</p>
+              )}
+            </div>
+            <div className="p-4 bg-slate-50 border-t border-slate-100 flex justify-end">
+              <button
+                onClick={() => setRecapModal(null)}
+                className="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold rounded-xl cursor-pointer transition-colors"
+              >
+                Tutup
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {recapModal === "inactive" && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
+          <div className="bg-white max-w-md w-full rounded-2xl shadow-2xl border border-slate-100 overflow-hidden transform transition-all animate-in fade-in zoom-in-95 duration-200">
+            <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-100">
+              <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
+                <UserX className="text-slate-500" size={20} />
+                Rincian Akun Sales Nonaktif ({inactiveAccounts})
+              </h3>
+              <button
+                onClick={() => setRecapModal(null)}
+                className="text-slate-500 hover:bg-slate-200 transition-colors p-1 rounded-lg"
+              >
+                <X size={18} />
+              </button>
+            </div>
+            <div className="p-6 max-h-[350px] overflow-y-auto space-y-3">
+              {member.filter(m => m.status === "inactive").map((m, idx) => (
+                <div key={m.member_id || idx} className="flex items-center justify-between p-3 border border-slate-200 rounded-xl bg-slate-50 hover:bg-slate-100 transition-colors">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 bg-slate-200 text-slate-600 rounded-full flex items-center justify-center font-bold text-xs">
+                      {m.member_name ? m.member_name.charAt(0).toUpperCase() : "?"}
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-[#0b1c30]">{m.member_name}</p>
+                      <p className="text-xs text-slate-400">@{m.username}</p>
+                    </div>
+                  </div>
+                  <span className="px-2 py-0.5 rounded-full text-[9px] font-extrabold uppercase tracking-wide border bg-slate-100 text-slate-600 border-slate-200">
+                    Nonaktif
+                  </span>
+                </div>
+              ))}
+              {inactiveAccounts === 0 && (
+                <p className="text-center py-6 text-slate-400 text-sm font-semibold">Tidak ada akun nonaktif ditemukan</p>
+              )}
+            </div>
+            <div className="p-4 bg-slate-50 border-t border-slate-100 flex justify-end">
+              <button
+                onClick={() => setRecapModal(null)}
+                className="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold rounded-xl cursor-pointer transition-colors"
+              >
+                Tutup
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {recapModal === "ratio" && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
+          <div className="bg-white max-w-md w-full rounded-2xl shadow-2xl border border-slate-100 overflow-hidden transform transition-all animate-in fade-in zoom-in-95 duration-200">
+            <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-indigo-50">
+              <h3 className="text-lg font-bold text-indigo-950 flex items-center gap-2">
+                <CheckCircle2 className="text-[#312e81]" size={20} />
+                Analisis Rasio Keaktifan Agen
+              </h3>
+              <button
+                onClick={() => setRecapModal(null)}
+                className="text-[#312e81] hover:bg-indigo-100 transition-colors p-1 rounded-lg"
+              >
+                <X size={18} />
+              </button>
+            </div>
+            <div className="p-6 space-y-6">
+              <div className="text-center">
+                <p className="text-xs uppercase font-extrabold text-[#464652] tracking-wider mb-1">Rasio Akun Aktif</p>
+                <p className="text-5xl font-black text-indigo-700">{activeRatio}%</p>
+              </div>
+
+              {/* Progress bar comparison */}
+              <div className="space-y-2">
+                <div className="flex justify-between text-xs font-bold text-[#0b1c30]">
+                  <span>Presentase Keaktifan</span>
+                  <span>{activeRatio}%</span>
+                </div>
+                <div className="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
+                  <div 
+                    className="bg-[#312e81] h-full rounded-full transition-all duration-500" 
+                    style={{ width: `${activeRatio}%` }}
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4 mt-6">
+                <div className="bg-emerald-50 border border-emerald-100 rounded-xl p-3 text-center">
+                  <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Aktif</p>
+                  <p className="text-2xl font-bold text-emerald-600">{activeAccounts} Akun</p>
+                </div>
+                <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 text-center">
+                  <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Nonaktif</p>
+                  <p className="text-2xl font-bold text-slate-400">{inactiveAccounts} Akun</p>
+                </div>
+              </div>
+
+              <p className="text-xs text-slate-400 leading-relaxed italic">
+                *Rasio ini menggambarkan kesehatan operasional dari seluruh user sales agent cabang. Akun nonaktif membatasi otentikasi login pengguna demi perlindungan akses.
+              </p>
+            </div>
+            <div className="p-4 bg-slate-50 border-t border-slate-100 flex justify-end">
+              <button
+                onClick={() => setRecapModal(null)}
+                className="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold rounded-xl cursor-pointer transition-colors"
+              >
+                Tutup
+              </button>
             </div>
           </div>
         </div>

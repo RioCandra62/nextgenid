@@ -90,3 +90,14 @@ export async function AddDataPenjualan(form: FormData) {
     client.release();
   }
 }
+
+export async function getDailyOmzet(){
+  const res = await pool.query(
+    `SELECT transactions.date, SUM(product.price * transactions.qts) as omzet
+     FROM transactions
+     JOIN product ON transactions.product_id = product.product_id
+     GROUP BY transactions.date
+     ORDER BY transactions.date ASC`
+  );
+  return res.rows;
+}

@@ -2,15 +2,27 @@
 
 import React from "react";
 
-interface OwnerDashboardNavBarProps {
-  activeTab: "overview" | "branches" | "corporate" | "financials" | "team";
-  setActiveTab: (tab: "overview" | "branches" | "corporate" | "financials" | "team") => void;
+interface BranchDashboardNavBarProps {
+  isCollapsed?: boolean;
+  onToggle?: () => void;
 }
 
-export default function BranchDashboardNavBar() {
+export default function BranchDashboardNavBar({ isCollapsed, onToggle }: BranchDashboardNavBarProps) {
   return (
     <header className="flex justify-between items-center h-16 px-8 w-full sticky top-0 z-40 bg-white border-b border-[#e2e8f0] shadow-sm">
-      <div className="flex items-center gap-8">
+      <div className="flex items-center gap-4">
+        {onToggle && (
+          <button
+            onClick={onToggle}
+            className="p-2 -ml-2 rounded-lg hover:bg-slate-50 text-[#464652] hover:text-[#312e81] cursor-pointer transition-colors border-0 bg-transparent flex items-center justify-center outline-none active:scale-95"
+            title={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
+          >
+            <span className="material-symbols-outlined text-[22px]">
+              {isCollapsed ? "menu" : "menu_open"}
+            </span>
+          </button>
+        )}
+
         <span className="text-[24px] font-bold text-[#1e1b4b] tracking-tight flex items-center gap-2">
           <span className="material-symbols-outlined text-[#312e81] font-bold">corporate_fare</span>
           NextGenID <span className="text-xs uppercase font-extrabold px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 tracking-wider">Branch</span>
