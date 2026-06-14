@@ -27,7 +27,7 @@ export default function LoginPage() {
     const usernameInput = email.trim();
     const passwordInput = password.trim();
 
-    if (usernameInput === "nextgendepok@179" && passwordInput === "depok179") {
+    if (usernameInput === "nexgendepok@179" && passwordInput === "depok179") {
       setIsLoading(true);
 
       // Determine dashboard path
