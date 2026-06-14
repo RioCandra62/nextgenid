@@ -1,0 +1,64 @@
+{
+  "sales": [
+    {
+      "column_name": "member_id",
+      "data_type": "uuid"
+    },
+    {
+      "column_name": "member_name",
+      "data_type": "text"
+    },
+    {
+      "column_name": "username",
+      "data_type": "text"
+    },
+    {
+      "column_name": "password",
+      "data_type": "character varying"
+    },
+    {
+      "column_name": "status",
+      "data_type": "text"
+    }
+  ],
+  "transactions": [
+    {
+      "column_name": "sales_id",
+      "data_type": "uuid"
+    },
+    {
+      "column_name": "member_id",
+      "data_type": "uuid"
+    },
+    {
+      "column_name": "product_id",
+      "data_type": "uuid"
+    },
+    {
+      "column_name": "qts",
+      "data_type": "smallint"
+    },
+    {
+      "column_name": "date",
+      "data_type": "date"
+    }
+  ],
+  "product": [
+    {
+      "column_name": "product_id",
+      "data_type": "uuid"
+    },
+    {
+      "column_name": "product_name",
+      "data_type": "text"
+    },
+    {
+      "column_name": "price",
+      "data_type": "integer"
+    },
+    {
+      "column_name": "stock",
+      "data_type": "smallint"
+    }
+  ]
+}
