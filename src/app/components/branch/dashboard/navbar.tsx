@@ -1,6 +1,8 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
+
 
 interface BranchDashboardNavBarProps {
   isCollapsed?: boolean;
@@ -23,10 +25,18 @@ export default function BranchDashboardNavBar({ isCollapsed, onToggle }: BranchD
           </button>
         )}
 
-        <span className="text-[24px] font-bold text-[#1e1b4b] tracking-tight flex items-center gap-2">
+        {/* <span className="text-[24px] font-bold text-[#1e1b4b] tracking-tight flex items-center gap-2">
           <span className="material-symbols-outlined text-[#312e81] font-bold">corporate_fare</span>
-          NextGenID <span className="text-xs uppercase font-extrabold px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 tracking-wider">Branch</span>
-        </span>
+          NextGenID 
+        </span> */}
+        <Image
+          src={"/logo-bg.png"}
+          alt="Logo NextGenID"
+          width={180}
+          height={180}
+          unoptimized
+        />
+        <span className="text-xs uppercase font-extrabold px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 tracking-wider">Branch</span>
         <div className="hidden md:flex items-center gap-6">
           <span
             className={`font-semibold text-[14px] cursor-pointer h-16 flex items-center border-b-2 transition-all duration-200`}
@@ -51,10 +61,10 @@ export default function BranchDashboardNavBar({ isCollapsed, onToggle }: BranchD
         {/* Executive Profile */}
         <div className="flex items-center gap-3 ml-2 bg-slate-50 p-1 rounded-full px-3 border border-[#e2e8f0]">
           <div className="w-8 h-8 rounded-full bg-[#312e81] flex items-center justify-center text-white font-bold text-xs shadow-inner">
-            MC
+            ND
           </div>
           <span className="text-[13px] font-semibold hidden lg:block text-[#0b1c30]">
-            Marcus CEO
+            Nexgen Depok
           </span>
         </div>
       </div>
